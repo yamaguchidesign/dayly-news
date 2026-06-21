@@ -112,6 +112,9 @@ def process_with_ai(articles_by_category: dict[str, list[dict]]) -> dict[str, li
 
     flat = flat[:MAX_TOTAL_ARTICLES]
 
+    articles_for_prompt = [{"id": a["id"], "source": a["source"], "title": a["title"]} for a in flat]
+    articles_json = json.dumps(articles_for_prompt, ensure_ascii=False, indent=2)
+
     prompt = f"""あなたはFDD（Functional Design Direction：事業を理解して解決策を設計するデザイナー）の視点でニュースを解説するアシスタントです。
 
 以下の記事リストを日本語に翻訳・要約してください。
@@ -127,7 +130,7 @@ def process_with_ai(articles_by_category: dict[str, list[dict]]) -> dict[str, li
 FDD視点とは：デザインを見た目だけでなく、事業成長・ユーザー体験・プロダクト戦略・グロースへの影響として捉えること。
 
 記事リスト：
-{json.dumps([{{"id": a["id"], "source": a["source"], "title": a["title"]}} for a in flat], ensure_ascii=False, indent=2)}
+{articles_json}
 
 JSONの配列のみ返してください。```json などのマークダウンや説明文は不要。"""
 
