@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エージェントスタック</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+</style>
+</head>
+<body>
+<p class="tag">📦 プロダクト・SaaS</p>
+<h1>エージェントスタック</h1>
+<p class="meta">Vercel Blog&nbsp;&nbsp;·&nbsp;&nbsp;</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>AI エージェント構築の</li><li>技術スタック・アーキテクチャを</li><li>体系的に提示</li></ul>
+  <p class="importance">💡 AI エージェント時代の開発基盤理解は、会話型UX・自動化フロー・ユーザーインタラクション設計の前提条件。プロダクト戦略と技術の交差点でのFDD価値が高まる。</p>
+</div>
+<div class="content">
+<h2>エージェント・スタック</h2>
+<p>エージェントは、サポートチケットの回答からコード作成まで、ほぼあらゆる種類の作業を行うように設計されています。ワークロードがいかに複雑であっても、実行時間がいかに長くても、完了に何ステップ必要であっても、すべてのエージェントが動作するには3つのコア機能が必要です。</p>
+<p>エージェントはモデルに接続し、それらの間でルーティングする必要があります。エージェントは多くのステップにわたってワークフローを実行する必要があります。エージェントは、それらを有用にするシステムと、ユーザーが相互作用するプラットフォームに接続する必要があります。</p>
+<p>これらの機能を実装して完全なエージェントを構築することは、開発者に単一のプロバイダーAPIとのベンダーロックイン、複数ソリューションの組み合わせ、または自分たちで抽象化を構築することの間の選択を強いられます。エージェント・スタックは、本番レベルのエージェントを作成・デプロイするために必要なすべての構成要素を提供します。</p>
+<h2>モデルへの接続</h2>
+<p>エージェントは単一のモデルで動作しません。タスクごとにコスト、レイテンシー、機能のトレードオフが異なり、適切な選択はエージェントが何をしているかによって異なります。エージェントはそれらのいずれにもアクセスするための1つのインターフェース、それらの間をルーティングする方法、そしてユーザーにストリーミングして返す方法が必要です。</p>
+<p>AI SDKはエージェントに任意のモデルを呼び出すための統一インターフェースを提供し、AI Gatewayは単一のエンドポイントから数百のモデルをルーティングします。</p>
+<h2>AI SDK</h2>
+<p>すべてのラボは独自のAPIを通じてモデル呼び出しを公開しています。ストリーミング、ツール呼び出し、構造化出力、リクエストの形式は異なるため、サポートするプロバイダーが増えるたびに、構築・保守すべき統合が増えていきます。</p>
+<p>AI SDKはAIアプリ、エージェント、フレームワークを構築するための統一インターフェースです。プラットフォーム、フレームワーク、モデルに依存せず、テキスト、画像、音声、ビデオなどを生成できます。</p>
+<p>1つの文字列を変更するだけでモデルを切り替え、コードは変更しません。</p>
+<h2>AI Gateway</h2>
+<p>トークンは今や本番環境での依存関係となり、ウェブにおける帯域幅と同じです。エージェントはタスクごとに異なるモデルを使用します。ラボ間の統合は、プロバイダーからの個別のキーと課金を意味し、それらは高額で、レート制限があり、常に変わっています。</p>
+<p>AI Gatewayはトークンの配信ネットワーク(CDN)で、10年以上運用してきたグローバルネットワーク上でそれらをルーティングします。各呼び出しを単一のエンドポイントを通してルーティングし、プロバイダーがダウンしたときはフェイルオーバーし、すべてのコストと使用状況を追跡します。プロバイダーの価格を上乗せなしで支払い、自分たちのキーを使用できます。</p>
+<p>「新しいモデルが登場するたびにインフラを再構築したくない」</p>
+<p>SERHANT.のCTO、グレッグ・チャンは、単一のキーから3つのモデルを実行し、市場分析をClaudeに、マーケティングコピーをGPTに、画像生成をGeminiに送信しています。</p>
+<h2>複雑なワークフローの実行</h2>
+<p>エージェントはタスクを順序立てて実行し、数分から数時間実行することもあります。これらのタスクでは、しばしばセキュアな環境でコードおよび他の操作を実行する必要があります。Workflow SDKはエージェント実行を永続的にし、Vercel Sandboxはエージェントに独立したVM環境を提供します。</p>
+<h2>Workflow SDK</h2>
+<p>エージェント・ワークフローの深い場所でステップが失敗し、再開すべき地点がない場合、ジョブ全体がやり直され、支払った完全なモデル呼び出しが再実行されます。永続性を解決することは、リトライ、状態永続化、オーケストレーションを自分たちで構築・保守することを意味します。</p>
+<p>Workflow SDKはすべてのジョブのすべてのステップをチェックポイント化し、状態を保持し、失敗したものをリトライし、人間、低速API、またはウェブフックを待つ必要があるときに一時停止します。実行はゼロからではなく、最後の良い状態から再開します。</p>
+<p>「このプロセスをどう永続化するか」または「ユーザーが生成の途中で切断したらどうする」といった質問は、デザイン議論を占めていました。今は</p>
+</div>
+<footer>
+  <a href="https://vercel.com/blog/agent-stack" target="_blank" rel="noopener">原文を読む → Vercel Blog</a>
+</footer>
+</body>
+</html>
