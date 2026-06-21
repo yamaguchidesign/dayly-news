@@ -3,8 +3,11 @@ import requests
 import os
 import json
 import logging
+import hashlib
+import re
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
+from pathlib import Path
 import anthropic
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -12,6 +15,9 @@ log = logging.getLogger(__name__)
 
 JST = timezone(timedelta(hours=9))
 RSS_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; dayly-news/1.0)"}
+
+GITHUB_PAGES_BASE = "https://yamaguchidesign.github.io/dayly-news"
+DOCS_DIR = Path(__file__).parent.parent / "docs" / "articles"
 
 FEEDS = {
     "🎨 デザイン": [
@@ -45,7 +51,7 @@ FEEDS = {
 }
 
 MAX_ITEMS_PER_SOURCE = 2
-LOOKBACK_HOURS = 100  # 週2回配信（最大96時間間隔）に合わせて余裕を持たせる
+LOOKBACK_HOURS = 100
 MAX_TOTAL_ARTICLES = 5
 
 
@@ -103,15 +109,10 @@ def fetch_all_articles() -> dict[str, list[dict]]:
 def process_with_ai(articles_by_category: dict[str, list[dict]]) -> dict[str, list[dict]]:
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
-    # 全記事をフラットリストに変換（IDで紐付け）
     flat: list[dict] = []
     for category, articles in articles_by_category.items():
         for article in articles:
-            flat.append({
-                "id": len(flat),
-                "category": category,
-                **article,
-            })
+            flat.append({"id": len(flat), "category": category, **article})
 
     flat = flat[:MAX_TOTAL_ARTICLES]
 
@@ -154,7 +155,6 @@ JSONの配列のみ返してください。```json などのマークダウン�
         log.error(f"AI processing failed: {e}")
         ai_map = {}
 
-    # AI結果をカテゴリ別に再構築
     enriched_by_category: dict[str, list[dict]] = {}
     for article in flat:
         cat = article["category"]
@@ -170,7 +170,159 @@ JSONの配列のみ返してください。```json などのマークダウン�
     return enriched_by_category
 
 
-def build_slack_blocks(articles_by_category: dict[str, list[dict]]) -> list[dict]:
+def fetch_article_content(url: str) -> str:
+    """記事本文をHTMLから取得してテキスト化する"""
+    try:
+        resp = requests.get(url, headers=RSS_HEADERS, timeout=15)
+        resp.raise_for_status()
+        text = resp.text
+        # script/styleタグを除去
+        text = re.sub(r"<script[^>]*>.*?</script>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+        # HTMLタグ・エンティティを除去
+        text = re.sub(r"<[^>]+>", " ", text)
+        text = re.sub(r"&[a-zA-Z]+;", " ", text)
+        text = re.sub(r"&#\d+;", " ", text)
+        text = re.sub(r"\s+", " ", text).strip()
+        return text[:5000]
+    except Exception as e:
+        log.warning(f"Failed to fetch article content from {url}: {e}")
+        return ""
+
+
+def translate_article_content(title: str, content: str) -> str:
+    """記事本文をHaikuで日本語翻訳する"""
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    prompt = f"""以下の英語記事を自然な日本語に翻訳してください。
+見出しは「## 見出し」形式で、段落は改行で区切ってください。
+タイトル: {title}
+
+本文:
+{content}
+
+翻訳文のみ返してください。"""
+
+    try:
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=4096,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.content[0].text
+    except Exception as e:
+        log.error(f"Translation failed: {e}")
+        return ""
+
+
+def url_to_slug(url: str) -> str:
+    return hashlib.md5(url.encode()).hexdigest()[:8]
+
+
+def he(s: str) -> str:
+    """HTML-escape"""
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def generate_article_html(article: dict) -> str:
+    title_ja = he(article.get("title_ja", article["title"]))
+    source = he(article["source"])
+    published = he(article.get("published", ""))
+    category = he(article.get("category", ""))
+    summary = article.get("summary", [])
+    importance = article.get("importance", "")
+    content_ja = article.get("content_ja", "")
+    original_url = he(article["link"])
+
+    summary_items = "".join(f"<li>{he(s)}</li>" for s in summary)
+    importance_html = f'<p class="importance">💡 {he(importance)}</p>' if importance else ""
+
+    if content_ja:
+        paragraphs = []
+        for line in content_ja.split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith("## "):
+                paragraphs.append(f"<h2>{he(line[3:])}</h2>")
+            elif line.startswith("# "):
+                paragraphs.append(f"<h2>{he(line[2:])}</h2>")
+            else:
+                paragraphs.append(f"<p>{he(line)}</p>")
+        content_html = "\n".join(paragraphs)
+    else:
+        content_html = "<p>（記事本文の取得に失敗しました。原文リンクからご確認ください。）</p>"
+
+    return f"""<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title_ja}</title>
+<style>
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}}
+.tag{{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}}
+h1{{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}}
+.meta{{font-size:.82rem;color:#888;margin-bottom:32px}}
+.summary-box{{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}}
+.summary-box .label{{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}}
+.summary-box ul{{list-style:none;margin-bottom:14px}}
+.summary-box li{{padding:4px 0 4px 18px;position:relative;font-size:.94rem}}
+.summary-box li::before{{content:"—";position:absolute;left:0;color:#0070f3}}
+.importance{{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}}
+.content{{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}}
+.content p{{margin-bottom:1.4em;font-size:.96rem}}
+.content h2{{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}}
+footer{{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}}
+footer a{{color:#aaa;text-decoration:none}}
+footer a:hover{{color:#0070f3}}
+</style>
+</head>
+<body>
+<p class="tag">{category}</p>
+<h1>{title_ja}</h1>
+<p class="meta">{source}&nbsp;&nbsp;·&nbsp;&nbsp;{published}</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul>{summary_items}</ul>
+  {importance_html}
+</div>
+<div class="content">
+{content_html}
+</div>
+<footer>
+  <a href="{original_url}" target="_blank" rel="noopener">原文を読む → {source}</a>
+</footer>
+</body>
+</html>"""
+
+
+def generate_article_pages(articles_flat: list[dict]) -> dict[str, str]:
+    """記事HTMLを生成・保存し {original_url: pages_url} を返す"""
+    today = datetime.now(JST).strftime("%Y-%m-%d")
+    output_dir = DOCS_DIR / today
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    url_map: dict[str, str] = {}
+
+    for article in articles_flat:
+        log.info(f"Translating: {article['title'][:50]}")
+        raw_content = fetch_article_content(article["link"])
+        content_ja = translate_article_content(article["title"], raw_content) if raw_content else ""
+        article["content_ja"] = content_ja
+
+        slug = url_to_slug(article["link"])
+        html = generate_article_html(article)
+        (output_dir / f"{slug}.html").write_text(html, encoding="utf-8")
+
+        pages_url = f"{GITHUB_PAGES_BASE}/articles/{today}/{slug}.html"
+        url_map[article["link"]] = pages_url
+        log.info(f"Saved: articles/{today}/{slug}.html")
+
+    return url_map
+
+
+def build_slack_blocks(articles_by_category: dict[str, list[dict]], url_map: dict[str, str]) -> list[dict]:
     now_jst = datetime.now(JST).strftime("%Y年%m月%d日")
     total = sum(len(v) for v in articles_by_category.values())
 
@@ -194,7 +346,7 @@ def build_slack_blocks(articles_by_category: dict[str, list[dict]]) -> list[dict
 
         for a in articles:
             title_ja = a.get("title_ja", a["title"])
-            link = a["link"]
+            pages_url = url_map.get(a["link"], a["link"])
             source = a["source"]
             published = a.get("published", "")
             summary = a.get("summary", [])
@@ -204,7 +356,7 @@ def build_slack_blocks(articles_by_category: dict[str, list[dict]]) -> list[dict
             if published:
                 meta += f"  _{published}_"
 
-            lines = [f"*<{link}|{title_ja}>*  {meta}"]
+            lines = [f"*<{pages_url}|{title_ja}>*  {meta}"]
             for s in summary:
                 lines.append(f"• {s}")
             if importance:
@@ -248,11 +400,16 @@ if __name__ == "__main__":
     if total == 0:
         log.info("No new articles. Skipping.")
     else:
-        log.info("Processing with AI...")
+        log.info("Processing with AI (summaries)...")
         processed = process_with_ai(articles_by_category)
 
+        articles_flat = [a for articles in processed.values() for a in articles]
+
+        log.info("Translating full articles and generating pages...")
+        url_map = generate_article_pages(articles_flat)
+
         log.info("Building Slack message...")
-        blocks = build_slack_blocks(processed)
+        blocks = build_slack_blocks(processed, url_map)
 
         log.info("Posting to Slack...")
         post_to_slack(blocks)
