@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 JST = timezone(timedelta(hours=9))
+RSS_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; dayly-news/1.0)"}
 
 FEEDS = {
     "🎨 デザイン": [
@@ -68,7 +69,9 @@ def fetch_all_articles() -> dict[str, list[dict]]:
         articles = []
         for name, url in sources:
             try:
-                feed = feedparser.parse(url)
+                resp = requests.get(url, headers=RSS_HEADERS, timeout=15)
+                resp.raise_for_status()
+                feed = feedparser.parse(resp.text)
             except Exception as e:
                 log.warning(f"Failed to fetch {name}: {e}")
                 continue
