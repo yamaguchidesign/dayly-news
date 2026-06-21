@@ -19,6 +19,11 @@ RSS_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; dayly-news/1.0)"}
 GITHUB_PAGES_BASE = "https://yamaguchidesign.github.io/dayly-news"
 DOCS_DIR = Path(__file__).parent.parent / "docs" / "articles"
 
+# Haiku 4.5 pricing (USD/1M tokens)
+HAIKU_INPUT_PRICE = 1.00
+HAIKU_OUTPUT_PRICE = 5.00
+USD_TO_JPY = 150
+
 FEEDS = {
     "🎨 デザイン": [
         ("Sidebar.io", "https://sidebar.io/feed"),
@@ -190,8 +195,8 @@ def fetch_article_content(url: str) -> str:
         return ""
 
 
-def translate_article_content(title: str, content: str) -> str:
-    """記事本文をHaikuで日本語翻訳する"""
+def translate_article_content(title: str, content: str) -> tuple[str, dict]:
+    """記事本文をHaikuで日本語翻訳する。(翻訳文, usage_info) を返す"""
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     prompt = f"""以下の英語記事を自然な日本語に翻訳してください。
 見出しは「## 見出し」形式で、段落は改行で区切ってください。
@@ -208,10 +213,14 @@ def translate_article_content(title: str, content: str) -> str:
             max_tokens=4096,
             messages=[{"role": "user", "content": prompt}],
         )
-        return response.content[0].text
+        usage = {
+            "input_tokens": response.usage.input_tokens,
+            "output_tokens": response.usage.output_tokens,
+        }
+        return response.content[0].text, usage
     except Exception as e:
         log.error(f"Translation failed: {e}")
-        return ""
+        return "", {}
 
 
 def url_to_slug(url: str) -> str:
@@ -235,6 +244,22 @@ def generate_article_html(article: dict) -> str:
 
     summary_items = "".join(f"<li>{he(s)}</li>" for s in summary)
     importance_html = f'<p class="importance">💡 {he(importance)}</p>' if importance else ""
+
+    usage = article.get("translation_usage", {})
+    if usage:
+        in_tok = usage.get("input_tokens", 0)
+        out_tok = usage.get("output_tokens", 0)
+        cost_usd = (in_tok * HAIKU_INPUT_PRICE + out_tok * HAIKU_OUTPUT_PRICE) / 1_000_000
+        cost_jpy = cost_usd * USD_TO_JPY
+        token_info_html = (
+            f'<p class="token-info">'
+            f'翻訳使用トークン: 入力 {in_tok:,} / 出力 {out_tok:,}'
+            f'&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥{cost_jpy:.3f}'
+            f'&nbsp;(claude-haiku-4-5, $1={USD_TO_JPY}円換算)'
+            f'</p>'
+        )
+    else:
+        token_info_html = ""
 
     if content_ja:
         paragraphs = []
@@ -276,6 +301,7 @@ h1{{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#
 footer{{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}}
 footer a{{color:#aaa;text-decoration:none}}
 footer a:hover{{color:#0070f3}}
+.token-info{{margin-top:14px;font-size:.75rem;color:#bbb}}
 </style>
 </head>
 <body>
@@ -292,6 +318,7 @@ footer a:hover{{color:#0070f3}}
 </div>
 <footer>
   <a href="{original_url}" target="_blank" rel="noopener">原文を読む → {source}</a>
+  {token_info_html}
 </footer>
 </body>
 </html>"""
@@ -308,8 +335,12 @@ def generate_article_pages(articles_flat: list[dict]) -> dict[str, str]:
     for article in articles_flat:
         log.info(f"Translating: {article['title'][:50]}")
         raw_content = fetch_article_content(article["link"])
-        content_ja = translate_article_content(article["title"], raw_content) if raw_content else ""
+        if raw_content:
+            content_ja, usage = translate_article_content(article["title"], raw_content)
+        else:
+            content_ja, usage = "", {}
         article["content_ja"] = content_ja
+        article["translation_usage"] = usage
 
         slug = url_to_slug(article["link"])
         html = generate_article_html(article)
