@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハイパートークンとは？トークンとコンポーネント間の新レイヤー、エージェント向けに再構築</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>ハイパートークンとは？トークンとコンポーネント間の新レイヤー、エージェント向けに再構築</h1>
+<p class="meta">UX Collective&nbsp;&nbsp;·&nbsp;&nbsp;06/28 23:48</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>AI エージェント時代に対応した</li><li>新しい設計システムの概念が登場。</li><li>トークン・コンポーネント・エージェント間の仲介層</li></ul>
+  <p class="importance">💡 AI エージェントが UX の主体になる時代、従来のデザインシステムでは対応不可。ハイパートークンはエージェント対応の UIロジック再構築であり、プロダクト競争力の核となるアーキテクチャ的イノベーション。</p>
+</div>
+<div class="content">
+<h2>ハイパートークンとは？トークンとコンポーネントの間のレイヤー、エージェント向けに再構築</h2>
+<p>トークンは単一の決定を保持します。コンポーネントは全体的なアセンブリです。興味深い作業はその間のギャップに存在し、人々は長年にわたってそのギャップに異なる名前で取り組んできました。問題は、すべてのツールが構築できる統一された定義がかつてなかったことです。</p>
+<p>その過去のギャップは害のないものでした。「見出し」はCSSやFigmaファイル、iOSに存在し、わずかにずれながらも、デザイナーはそれを目で調整していました。しかし、現在ではエージェントがあなたのファイルを読むことが多く、エージェントは何も調整しません。見つけたものを正確に構築し、残りは推測します。ずれが悪化しなかったわけではありません。無料でなくなっただけです。</p>
+<p>Figmaの Jake Albaugh はそのギャップに名前を付けました：ハイパートークンです。これは、AIは実行速度を上げるが明確性は上げないという、より大きな議論の一部であり、あなたの意図が人間によって作成された状態に保たれなければならないというものです。ハイパートークンはその一部です：マシンにあなたの意図を推測させずに渡す方法です。</p>
+<p>明確にするために、これはリリースされた機能でも公式なFigmaのアナウンスでもありません。Figmaの Jake とそのチームが公開して探索している概念で、まだ地平線上にあります。彼はConfig 2026でのトークの中でこの用語を作りました。</p>
+<p>以下は、どのように機能するのか、デザイナーにとって何が変わるのか、あとどのくらい先なのか、そしていくつかの私自身の考え、例えばこれはただの合成トークンではないのか、本当に単一の情報源があるのかについてです。</p>
+<h2>トークンが何であるかから始める</h2>
+<p>デザイントークンは1つの名前付き決定です。</p>
+<p>color.text.primary = #1A1A1A</p>
+<p>space.200 = 8px</p>
+<p>radius.sm = 4px</p>
+<p>1つの名前が1つの値に変換されます。ポイントは値ではなく、名前です。なぜなら color.text.primary はブランド変更の後も残りますが、#1A1A1A はそうではないからです。トークンは、デザインシステムが「何であるか」ではなく「何を意味するか」を言う方法です。</p>
+<p>これは単一の決定に対して完璧に機能します。決定が群れで移動する瞬間に崩壊します。</p>
+<h2>問題：多くの決定が群れで移動し、すべてのツールが独自のコピーを保持している</h2>
+<p>見出しを見てください。それは決して「1つの決定」ではなく、むしろフォントファミリ、サイズ、ウェイト、行の高さ、文字間隔が常に一度にすべてです。</p>
+<p>font-family: Inter;</p>
+<p>font-size: 32px;</p>
+<p>font-weight: 600;</p>
+<p>line-height: 1.2;</p>
+<p>letter-spacing: -0.01em;</p>
+<p>コードを書く場合、私たちは常にこれをバンドル化してきたと異議を唱えている可能性があり、あなたは正しいでしょう。CSSクラス、SCSSミキシン、Tailwind @apply、Figmaテキストスタイル：これらはそれぞれ、コードまたはFigmaが1つの名前でプロパティのバンドルを保存して再利用する方法にすぎません。バンドル化は新しいものではありません。すべてのツールチェーンには既に独自のバージョンがあります。</p>
+<p>本当の問題は、ツール間で何が起こるかです。Style Dictionaryのようなパイプラインは既に1つのソースを多くのプラットフォームに変換していますが、バンドルされたスタイルではなく単一の値のためにそれを行っています。したがって、同じ見出しバンドルは複数の場所に手作業で存在する傾向があります：CSSの .heading-lg クラス、Figmaの「見出し / 大」スタイル、iOSまたはAndroidのバージョン。</p>
+<p>これらのコピーは時間とともにずれます。誰かがCSSの行の高さを調整し、誰もFigmaに触れず、ベアなクラス名はマシンにほぼ何も伝えません。なぜなら .heading-lg を見るAIエージェントは、実際に何が含まれているかを理解するためにスタイルシートを掘り下げる必要があるからです。</p>
+<p>1つの決定が共有ソースのない複数の手作りコピーになり、それがギャップです。</p>
+<h2>ハイパートークン：1つの名前付きバンドル、すべてのツールの上流</h2>
+<p>ハイパートークンは、スタイルプロパティの名前付きバンドルで、1回定義され、すべてのツールのコピーが構築されています。テキストスタイルやクラスのようなあなたが既に知っているバンドルと同じ形をしていますが、構造化データとしてそれらの上の1レベル上に存在し、値はコードの行に焼き込まれるのではなく、明確にラベル付けされたフィールドとして保持されます。</p>
+<p>約束は、ビルドステップ、あなたの単一のソースを必要なすべてのフォーマットに変換する自動化されたツールが、その1つの定義からCSSクラス、Figmaテキストスタイル、そしてiOS用のSwift構造体を生成することです。</p>
+<p>これはコピー＆ペーストではなく、エクスポートと考えてください。ソースを変更するとすべてのプラットフォームが更新されるため、手作りコピーが4つも分散しなくなります。そして、クラス名ではなくラベル付けされたデータであるため、エージェントはスタイルシートをリバースエンジニアリングする代わりに、パーツを直接読むことができます。</p>
+<p>タイポグラフィは単なる親しみやすい例です。Jakeの本当の動きは、同じラッピングをスペーシンググループ、背景と境界と半径と影で構築されたサーフェス、トランスフォーム、そしてより野心的なものなど、群れで来るすべてのものに適用することです。</p>
+</div>
+<footer>
+  <a href="https://uxdesign.cc/what-are-hypertokens-the-layer-between-tokens-and-components-rebuilt-for-agents-962dbe93e0c4?source=rss----138adf9c44c---4" target="_blank" rel="noopener">原文を読む → UX Collective</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,296 / 出力 1,981&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.680&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
