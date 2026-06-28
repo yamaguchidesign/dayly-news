@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel Ship 2026 総括</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">📦 プロダクト・SaaS</p>
+<h1>Vercel Ship 2026 総括</h1>
+<p class="meta">Vercel Blog&nbsp;&nbsp;·&nbsp;&nbsp;</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>Vercel が 2026 年に発表した</li><li>プラットフォーム拡張と機能強化を</li><li>総合的に振り返るイベント総括</li></ul>
+  <p class="importance">💡 Web インフラ企業の戦略方向性から、エンタープライズ向けプロダクト、デベロッパー体験設計の重点が見える。デザインと開発体験の統合がビジネス成長の鍵であり、プラットフォーム戦略理解に必須。</p>
+</div>
+<div class="content">
+<h2>Vercel Ship 2026 の振り返り</h2>
+<p>Vercelは10年間、ウェブがどのように構築されるかを形作ってきました。今、私たちはエージェントについても同じことをしています。次の10年で勝つ企業は、最初からエージェント向けに設計されたインフラストラクチャの上に構築します。今週ロンドンで開催されたVercel Ship 2026には、2,500人以上が集まりました。</p>
+<h2>エージェント向けインフラストラクチャ</h2>
+<p>GuillermoはShipの開始時に、Vercelの展望を共有しました。それは、何でもデプロイできる真のフルスタックプラットフォーム。思考能力を持つソフトウェアも含めてです。</p>
+<p>「私たちは思考できるソフトウェアをデプロイしています。」</p>
+<p>— Guillermo Rauch、Vercel CEO</p>
+<p>エージェント向けインフラストラクチャには3つの要素があります：</p>
+<p>Vercelはコーディングエージェントがソフトウェアをデプロイする場所です。Claude CodeやCodexにデプロイ先を聞くと、Vercelが返ってきます。なぜなら、Vercelはエージェントがどのように動作するかに合わせて構築されているからです。</p>
+<p>Vercelは独自のエージェントを構築・デプロイする場所です。本番環境でアプリとエージェントを安全にスケール実行するために必要なあらゆるツールを提供します。</p>
+<p>Vercel自体がエージェントによって自動化されています。Vercelは本番環境でアプリを実行し、トラフィック、トレース、オブザーバビリティ、異常を処理します。そのデータはエージェントに自律的に調査するために必要なコンテキストを与え、アラートだけでなくプルリクエストとして提示します。</p>
+<h2>Vercelはエージェントをデプロイするためのプラットフォーム</h2>
+<p>次のキーノートでTomは、Agent Stackの各プリミティブについて説明しました。これはエージェント向けの包括的なビルディングブロックセットです。Hediはエージェントが外部システムに接続するセキュアな方法である、Vercel Connectを紹介しました。Sharは、Vercelの新しいエージェントフレームワークであるeveの完全なデモンストレーションを行い、Agent Stackを数分で単一のディレクトリに実装できることを示しました。</p>
+<h2>Agent Stack</h2>
+<p>ワークロードに関わらず、すべてのエージェントはモデルに接続し、複数ステップにわたってワークフローを実行し、それを有用にするシステムと人々に接続する必要があります。Vercelはこれら3つの機能をすべて構築するために必要なすべてのプリミティブを提供します。</p>
+<p>AI SDKは任意のモデルを呼び出すための単一のAPIを提供するため、ストリーミング、ツール呼び出し、構造化出力はすべてのプロバイダーで同じように機能します。</p>
+<p>AI Gatewayは1つのエンドポイントから数百のモデルのリクエストをルーティングし、プロバイダーがダウンした場合の自動フェイルオーバーを行います。</p>
+<p>Workflow SDKは自動リトライ、状態永続化、組み込みオブザーバビリティにより、すべての実行を耐久性のあるものにします。</p>
+<p>Vercel Sandboxは各エージェントに隔離されたマイクロVMを提供し、本番環境にシップする前にコードの実行とテストを行います。</p>
+<p>Chat SDKにより、単一のコードベースからSlack、Discord、GitHubなどにエージェントをデプロイできます。</p>
+<h2>Vercel Connect</h2>
+<p>Vercel ConnectはロンドンのShip 2026でAgent Stackの最新ビルディングブロックとしてローンチしました。Connectはエージェントが、環境変数に保存される長期的なプロバイダートークンを必要とせず、動作するツール、データ、サービスへのセキュアなアクセスを提供します。</p>
+<p>アプリまたはエージェントが、目の前のタスク1つにスコープを限定した一時的な認証情報をリクエストするため、漏らされるリスクのある常駐シークレットが残りません。</p>
+<h2>eve</h2>
+<p>Vercelで数百のエージェントを構築した後、その下にあるアーキテクチャが同じ形状を持つことに気づきました。eveはそのあるべき姿をオープンソースフレームワークとして実装したもので、Vercelでどのように本番エージェントを構築、実行、スケーリングするかについても体現しています。</p>
+<p>eveのエージェントは単一のディレクトリに存在し、指示はMarkdownで、ツールはTypeScriptで書きます。耐久性のある実行、サンドボックス計算、承認、サブエージェント、評価がすでに組み込まれています。</p>
+<p>本番エージェントを数分でデプロイしてください。すべてのエージェントは、すでに使用しているコマンドを使ってスキャフォールド、実行、デプロイするディレクトリです。</p>
+<h2>Vercelはフルスタックアプリをデプロイするためのプラットフォーム</h2>
+<p>Guillermoは、追加のバックエンドフレームワーク、データベース、現在ではマイクロサービスをサポートして、フルスタックアプリケーションをホストするVercelの能力についても強調しました。</p>
+<h2>バックエンドとデータベース</h2>
+<p>今年初め、Verc</p>
+</div>
+<footer>
+  <a href="https://vercel.com/blog/vercel-ship-2026-recap" target="_blank" rel="noopener">原文を読む → Vercel Blog</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,208 / 出力 1,682&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.443&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
