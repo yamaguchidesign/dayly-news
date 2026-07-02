@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アクセシビリティは機能ではなく、組織の運用能力である</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>アクセシビリティは機能ではなく、組織の運用能力である</h1>
+<p class="meta">Smashing Magazine&nbsp;&nbsp;·&nbsp;&nbsp;06/30 21:00</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>アクセシビリティは後付け機能ではなく、</li><li>プロダクト開発の基本原則として組織全体で</li><li>取り組むべき運用能力である必要がある</li></ul>
+  <p class="importance">💡 アクセシビリティを運用能力化することで、ユーザーベースの拡大・ブランド信頼構築・法令対応リスク軽減を同時実現。デザイン・エンジニア・経営が一体となった事業成長戦略の根幹となる。</p>
+</div>
+<div class="content">
+<h2>アクセシビリティは機能ではなく、運用能力である</h2>
+<h2>アクセシビリティが運用能力である理由</h2>
+<p>チームはこれまで以上に高速にUIを生成できるようになりました。しかし、出荷するものが使用可能、安全、保守可能であることを保証する必要があります。アクセシビリティをコンプライアンスチェックリストやプロジェクト終了時の監査ではなく、運用能力として扱うこと、そして実際にそれがどのように機能するかについて説明します。</p>
+<p>現在、シニアエンジニアが午後中に「構築した」チェックアウトフローをリリースしています。AIアシスタントが重い処理を担当し、ハッピーパスは正常に動作し、回転するシェブロンが注文概要に表示されます。2週間後、エンジニアリングはカスタマーサポートから通知を受けます。スクリーンリーダーを使用している視覚障害のあるユーザーが、「今すぐ支払う」コントロール（divタグでクリックハンドラ付き）が機能していないため、購入を完了できないというものです。ロールがなく、フォーカス不可で、動作しません。</p>
+<p>コードが動作することと、実際に人々が使用できる製品との間のギャップは、AI時代における最大のエンジニアリング課題の1つになっています。チームはこれまで以上に高速にUIを生成できますが、出荷するものが使用可能、安全、保守可能であることを保証する必要があります。アクセシビリティはその問題の中心に位置しています。</p>
+<p>これはコンプライアンスチェックリストやプロジェクト終了時の監査についての記事ではありません。エンジニアリングシステムについてです。具体的には、アクセシビリティがプライバシー、セキュリティ、信頼性、可観測性と同様に運用能力として扱われるべき理由と、実際にそれがどのように機能するかについてです。</p>
+<h2>監査の罠</h2>
+<p>長年にわたり、アクセシビリティに対応するデフォルト的な方法は、1回限りの監査のみのアプローチでした。企業を雇い、200件の問題一覧を取得し、そのうちのいくつかを修正し、レポートを提出するというものです。多くのチームはすでにこのモデルを超えており、その理由は検討する価値があります。</p>
+<p>監査は重要です。営業、調達、ガバナンスの観点から不可欠です。購入者がVPATやACRを求める場合、それが必要です。法務が要件を満たしているか質問する場合、ドキュメントが必要です。監査はこれらの目的をよく果たします。</p>
+<p>しかし、監査はスプリント計画中のアクセス可能な機能構築に役立ちません。監査はスプリント中にポイントをコストとします。マージリクエスト前の問題を検出しません。デプロイメント速度に対応しません。</p>
+<p>本質的には、スナップショットとしてアクセシビリティに対処することが間違いです。実際には継続的な監視が必要です。監査から6ヶ月後、製品は数十のリリース、複数の新機能、および再設計されたナビゲーションをリリースしています。レポートは現実とはかけ離れたものになります。</p>
+<p>コンプライアンスは到達する状態ではなく、維持する状態です。複雑さはあなたとずっと戦い続けます。毎年上位100万のホームページをスキャンするWebAIM Millionレポートでは、2026年の実行で95.9%のページが検出可能なWCAG違反があることが判明し、ページあたり平均56.1のエラーがありました。ページ要素の数は1年間で20%以上増加しました。おそらくAI対応の開発と「ノリでコーディング」によって駆動され、より多くの要素はより多くの破損箇所を意味します。</p>
+<p>アクセシビリティの負債は技術的負債とまったく同じように動作します。出荷するアクセス不可能なコンポーネントはすべて、将来の改善プロジェクトになり、利息が複合します。アクセシビリティを定期的なイベントではなく、システムの継続的なプロパティとして扱う戦略は失敗します。</p>
+<h2>誰もが名前を付けたくないAIの問題</h2>
+<p>チームがUIを生成する規模により、ギャップは持続するだけでなく、増殖します。このことがいかに急速に起こったかから始めましょう。2025年2月、アンドレイ・カルパシーは「ノリでコーディング」を造語しました。これはコードの存在さえ忘れて、完全に雰囲気に身をゆだねる働き方です。意図を説明し、モデルが生成し、差分を読まずに受け入れます。これはウィークエンドプロジェクト向けでした。そこには留まりませんでした。</p>
+<p>Y Combinatorは、2025年冬のバッチの25%のコードベースが95%AI生成されたものであると報告しました。モデルは非セマンティックマークアップに偶然に着地することはありません。3つの力がそこに向かわせます。GitHubのほとんどのReactコードは非セマンティック「スープ」を使用しているため、それはモデルが学習することです。人間のレビュアーと評価者は視覚的に出力を判定します。</p>
+</div>
+<footer>
+  <a href="https://smashingmagazine.com/2026/06/why-accessibility-operational-capability-not-feature/" target="_blank" rel="noopener">原文を読む → Smashing Magazine</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,203 / 出力 1,704&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.458&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
