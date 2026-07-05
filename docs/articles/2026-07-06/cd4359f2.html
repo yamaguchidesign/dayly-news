@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIモダリティとユーザー意図のマッチング：適切なインターフェース設計</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>AIモダリティとユーザー意図のマッチング：適切なインターフェース設計</h1>
+<p class="meta">Smashing Magazine&nbsp;&nbsp;·&nbsp;&nbsp;07/02 19:00</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>AI出力形式とユーザーニーズの一致</li><li>インターフェースの最適化が課題</li><li>意図認識がUX品質を左右</li></ul>
+  <p class="importance">💡 AI活用時の体験設計が差別化要因。ユーザー意図の正確な理解と最適なUI/UXの組み合わせが、AI導入の成功可否を決定する戦略的課題</p>
+</div>
+<div class="content">
+<h2>AIのモダリティをユーザーの意図に合わせる：適切なインターフェースの設計</h2>
+<p>デザインコミュニティは「会話トンネル視野」の時代に突入している。大規模言語モデル（LLM）が対話データで学習されているため、業界全体がチャットバブルをあらゆるAI機能の自然な居場所だと判断している。チャットインターフェースは多くのタスクにとって実行可能で強力な選択肢だが、膨大なツールキットの中の1つのツールに過ぎない。UXおよびプロダクトチームは、ユーザーがデータとコマンドを提供する方法、そしてシステムが出力を提示する方法について、モダリティを意図的に選択する必要がある。</p>
+<p>モダリティとは、人がシステムと相互作用するために感覚を使う方法である。視覚、聴覚、触覚、音声、またはタイピングを使用する。最適な方法を選ぶには、ユーザーが何をしたいのか、どこにいるのか、そして既に何だけの認知努力を費やしているのかを考える必要がある。このガイドは、プロセスを支援するための2つのツール（タスク監査とインプット/アウトプット整合マトリックス）を使用して、あらゆるプロダクトに最適なアプローチを見つけるための明確な方法を提供する。</p>
+<p>急なゲート変更後、大きな空港ターミナルをジョギングしている旅行者を想像してほしい。彼らはローラーバッグを引っ張り、もう一方の手でコーヒーを持っている。AIアシスタントに向かう場所を聞くために航空会社のアプリを開く必要がある。このツールはすぐにインプットモダリティテストに失敗する。旅行者に歩くのをやめさせ、コーヒーのバランスを取り、長い予約番号を小さなチャットボックスに入力するよう強制する。ようやく送信を押すと、システムはアウトプットモダリティテストに失敗する。遅延を引き起こしている大気の気象パターンについて詳しく説明する文字列の段落を返す代わりに、大きなハイコントラストのゲート番号をフラッシュさせるべきだ。実際のゲート番号は一番下に埋もれている。</p>
+<p>フライトには間に合うかもしれないが、ユーザーはAIツール使用時に感じた不安の瞬間を忘れないだろう。AIツールの使用は、UXへの関心と理解を強化する方法として機能するはずだったが、代わりに企業が顧客とその製品の使用について関心を持たないか理解していないという一般的な認識を検証してしまった。このシナリオでは、航空会社は賢いツールを構築したが、インターフェースはユーザーに失敗した。インプットは物理的な器用さを必要としたが、旅行者はその時点で持っていなかった。アウトプットは彼らが割くことができない読書焦点のレベルを要求した。この記事では、AI駆動ツールでこのシナリオを回避する方法について説明する。</p>
+<p>成功するためには、ユーザーの物理的および認知負荷を評価して、インプットとアウトプットのモダリティの両方を彼らの直接的な意図に合わせる必要がある。</p>
+<h2>万能チャットボットの神話</h2>
+<p>チャットボットの魅力は、プロダクト開発の観点から理解しやすい。それは白紙の状態である。システムがユーザーが提供するものを処理できることを示唆している。しかし、テキストが多いインターフェースは高い適応負荷をもたらすことが多い。この負荷はユーザーの認知需要を増加させる。時間が経つにつれて、この認知負担は心理的税金に変わる。人が自然な思考プロセスを機械に対応させるときに払う税金である。インターフェースが会話のみに依存する場合、二重の負担が課せられる：入力に対する言語的な課題と出力に対する認知的な課題である。以下で両方を別々に検証する。</p>
+<h2>インプット：テキストボックスが言語的障壁である理由</h2>
+<p>空白のチャットボックスは、ツールが実際に何ができるかを発見する必要があるユーザーにとって大きな問題を生み出す。標準的なグラフィカルインターフェースでは、メニューとボタンが利用可能なすべてのオプションを示す明確な視覚的な手がかりを提供する。チャット</p>
+</div>
+<footer>
+  <a href="https://smashingmagazine.com/2026/07/matching-ai-modality-user-intent-designing-right-interface/" target="_blank" rel="noopener">原文を読む → Smashing Magazine</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,178 / 出力 1,455&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.268&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
