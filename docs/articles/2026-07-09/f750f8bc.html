@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel Agent：本番環境へ導入できるAIエージェント</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">📦 プロダクト・SaaS</p>
+<h1>Vercel Agent：本番環境へ導入できるAIエージェント</h1>
+<p class="meta">Vercel Blog&nbsp;&nbsp;·&nbsp;&nbsp;</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>AI自動化の本番運用実現</li><li>プロダクション対応エージェント</li><li>開発効率と信頼性の両立</li></ul>
+  <p class="importance">💡 AI×本番運用の統合により、開発サイクル短縮と品質維持を両立。エンジニア体験の向上が組織生産性向上に直結し、プロダクト リリース速度向上がビジネス競争力に。</p>
+</div>
+<div class="content">
+<h2>Vercel Agent: 本番環境の近くに配置できるエージェント</h2>
+<p>Vercel Agent を拡張しています。当初はアラート分類とプルリクエストレビューから始まりました。現在ではダッシュボードに統合され、本番環境を調査したり、プロジェクトについての質問に答えたり、承認後にアクションを実行したりできます。Vercel Agent はアプリをデプロイして実行するプラットフォームに組み込まれているため、本番環境で何か変更が発生すると、それが最初の対応者になります。ログ、メトリクス、デプロイを自動的に調査し、根本原因を特定し、ノートパソコンを開く前に修正案を提案します。Vercel Agent は独自のアイデンティティで動作し、デフォルトでは読み取り専用です。Vercel ダッシュボード、GitHub、CLI を通じてアクセスできます。</p>
+<h2>Vercel Agent があなたのためにすること</h2>
+<p>私たちは数か月間、本番デプロイメントで Vercel Agent を実行しています。典型的な調査はこのような流れです。</p>
+<p>不良なデプロイが午後 11 時にリリースされ、チェックアウトエンドポイントが 500 エラーを返し始めます。オンコール エンジニアがログインする頃には、Vercel Agent は既にエラーを 4 分前にリリースされたデプロイまで追跡し、即座なロールバックを推奨しています。エンジニアがその計画を承認すると、Vercel Agent は前の本番デプロイメントにロールバックし、エンドポイントを修正するための PR の作成を開始します。アラートから問題解決まで：3 分以下です。</p>
+<h2>Vercel Agent でできること</h2>
+<p>Vercel Agent に直接タスクを指示することもできます。タスクを与えると、それが下準備をして、質問に答えるか、承認する修正を提示します。本番環境を独自に変更することはありません。</p>
+<p>例えば、以下のことができます：</p>
+<p>**プルリクエストをレビューする**。PR を確認するよう指示すると、パスした CI では検出されないパフォーマンス低下と危険な変更にフラグを立てます。</p>
+<p>**コスト増加をトレース**。請求が跳ねた理由を尋ねると、キャッシュの代わりにすべてのリクエストでページをサーバーレンダリングするコード変更など、原因を特定します。承認があれば、修正を書いて PR を開きます。</p>
+<p>**壊れたビルドを修正**。失敗したデプロイメントを Vercel Agent に指し示すと、ログを読み、失敗した設定を見つけ、更新の許可を求め、サンドボックスでビルドをテストします。</p>
+<p>**リリース準備ができているか確認**。フィーチャーフラグについて尋ねると、コードとライブメトリクスを読み、ロールアウトが安全かどうかを教えます。</p>
+<h2>本番環境でのエージェント向けの新しいセキュリティモデル</h2>
+<p>アプリを修正できるエージェントは、それを壊すこともできます。本番環境の近くに配置するエージェントについては、最初の質問は次のようになります：デプロイ、設定変更、またはデータへのアクセスを許可することは安全ですか？</p>
+<p>ほとんどの今日のエージェントについては、その答えはノーです。それは彼らがあなたの完全な権限を継承しているからです。あなたからの不適切なプロンプト、または混乱した サブエージェントは、あなたと同じ影響範囲を持ちます。選択肢は読み取り専用か継続的なアクセス、または慎重だが限定的か有能だが危険かのどちらかでした。</p>
+<p>Vercel Agent は 3 つのものに基づいた新しい権限モデルを実装しています：エージェントが何であるか、何ができるのか、そしてそのコードがどこで実行できるかです。</p>
+<h2>Vercel Agent は独自のアイデンティティを持っています</h2>
+<p>ほとんどのエージェントはあなたとして機能します。1 つを接続すると、セッション全体で同じアイデンティティとアクセス権で機能します。エージェントができることとあなたができることの間に線はありません。</p>
+<p>Vercel Agent は独自のプリンシパル `vercel-agent` として実行されます。これは 2 つの理由で重要です：</p>
+<p>**属性**：エージェントのアクションは常にあなたのアクションと区別できます。すべての変更は、誰がそれを要求し、誰が承認し、Vercel Agent がそれを実行したかを記録します。実行したことは何も追跡不可能ではありません。</p>
+<p>**権限**：別のアイデンティティは別の権限を意味しません。エージェントはあなたのアクセスを継承しません。計画承認によって明示的に付与されたもののみを取得し、それを指示している人が既に持っているもの以上のものは決してありません。</p>
+<h2>計画が権限です</h2>
+<p>エージェントを SDLC に統合することは通常、同じ方法で始まります。事前に広範なアクセスを付与することです。必要以上のものを、そして必要以上の期間付与します。</p>
+</div>
+<footer>
+  <a href="https://vercel.com/blog/vercel-agent" target="_blank" rel="noopener">原文を読む → Vercel Blog</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,265 / 出力 1,623&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.407&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
