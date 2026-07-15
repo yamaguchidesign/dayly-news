@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speechifyが6000万ユーザーに50万動的ページを配信する仕組み</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">📦 プロダクト・SaaS</p>
+<h1>Speechifyが6000万ユーザーに50万動的ページを配信する仕組み</h1>
+<p class="meta">Vercel Blog&nbsp;&nbsp;·&nbsp;&nbsp;</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>大規模スケールでの動的ページ配信を実現した技術アーキテクチャ</li><li>Vercelプラットフォームを活用した最適化戦略</li><li>ユーザー体験と技術パフォーマンスの両立が実証</li></ul>
+  <p class="importance">💡 規模と速度の両立がユーザーリテンション・満足度に直結する実例。技術基盤の最適化がスケーラブルなプロダクト戦略を可能にし、競争優位性と事業成長の基盤となる。</p>
+</div>
+<div class="content">
+<h2>Speechifyが60万ユーザーに50万ページをVercel上で配信する方法</h2>
+<h2>Speechify、Vercel上で500,000ページ以上を40言語以上で配信</h2>
+<p>Speechifyは識字障害のある人のためのツールとして始まりました。創業者兼CEO のCliff Weitzmanは、読書が困難だったため、音声によって読むことがはるかに容易になることに気づいて、このツールを開発しました。この初期のユースケースはSpeechifyを数千万のユーザーへと導き、インクルーシブデザインに対するApple Design Awardを獲得しました。その後、製品はさらに大きく成長し、6000万人がドキュメントを音声で聞いたり、タスクをエージェントに委任したり、音声で完全に仕事を完結させるAI作業プラットフォームへと進化しました。</p>
+<p>しかし、この歩みは簡単ではありませんでした。初期段階で彼らはハッキングされ、半日間、すべての訪問者はカジノウェブサイトにリダイレクトされていました。この後、成長エンジニアリング責任者のDenis Chernobaiは、インフラスタックを再評価する時が来たことを知りました。彼はNext.jsとVercel上で一からリビルドすることを決定し、結果として配信ページ数を40倍に増やし、グローバルオーディエンスを3倍に拡大し、50%のコスト削減を達成しました。Vercelへの移行以来、Speechifyは99.99%のアップタイムを維持し、セキュリティインシデントは一件も発生していません。</p>
+<h2>500,000ページの動的配信コスト</h2>
+<p>Speechifyのウェブサイトは主要な成長エンジンであり、10,000個の基本ページが40以上の言語に翻訳され、オンボーディングファネル、ローカライズされたランディングページ、頻繁に変更される価格実験に対応しています。コンテンツが頻繁に変更されるため、静的生成はオプションではありません。しかし、すべてを動的に配信することは、すべての訪問者が潜在的なデータベース読み取りを意味し、これは毎日数十万回の訪問で急速に複合します。</p>
+<p>VercelのData Cache、ISR、およびNext.js Cache Componentsは両方の問題を一度に解決します。ページは初回訪問時に動的にレンダリングされ、すぐにキャッシュされ、何か変わるまで最も近いアクセスポイントから提供されます。その結果、インフラコストが増加することなくスケールする世界的な成長エンジンが実現します。</p>
+<h2>6000万ユーザーへの配信リスク</h2>
+<p>### インスタントロールバック：素早く配信し、さらに素早く修正</p>
+<p>Speechifyの成長チームは常に配信しています。新しいファネルとA/Bテストは、すべてが正常に機能することを期待する数百万のユーザーベースに数日ごとにデプロイされます。この規模では、悪いリリースは開発者が修正するバグではなく、誰もが対応する時間を持つ前に現れる可能性のある収益の問題です。Vercel以前は、悪いリリースはそれがインシデントになる前にパッチを適用するために急遽対応することを意味していました。配信を恐れることから配信に自信を持つことへのこのシフトは、小さな成長チームが通常はより大きなチームを必要とする速度で運営することを可能にします。</p>
+<h2>市場よりも遅く動くコスト</h2>
+<p>### Vercel上のNext.js：コードからグローバル配信へ</p>
+<p>AIがこのペースで動いている場合、競争力を保つために常に配信する必要があり、機能は急速に進化し、しばしば数週間ごとに変わります。「新しい音声機能とエージェントが出現しており、それらはちょうど先月存在していなかった」とSpeechifyのチーフビジネスオフィサーであるRohan Pavuluri氏は述べています。アイデアが実装されないままでいる毎週は、誰か他の人がそれを最初に実現するかもしれない週です。</p>
+<p>Vercel上のNext.jsを使用すれば、アイデアを現実に変える唯一の障害物はコード自体です。Speechifyは継続的なデプロイメントでNext.jsで配信します。成長チームは専任のプラットフォームエンジニアリング機能を持たず、必要もありません。セキュリティパッチは自動的に適用され、Fluid computeで需要に応じてインフラがスケールし、保守するデプロイメントパイプラインはありません。</p>
+<h2>次のステップ</h2>
+<p>Speechifyは新しい国際市場への拡大と、数百万のユーザーへの新しいAI機能の配信を進めています。最近、彼らはSpeechifyAIという開発者プラットフォームを立ち上げました。</p>
+</div>
+<footer>
+  <a href="https://vercel.com/blog/how-speechify-serves-50000-dynamic-pages-to-60-million-users-on-vercel" target="_blank" rel="noopener">原文を読む → Vercel Blog</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,270 / 出力 1,542&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.347&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>

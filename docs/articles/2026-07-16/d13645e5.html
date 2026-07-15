@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI時代のインタラクション設計：デザイナーは準備できているか</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>AI時代のインタラクション設計：デザイナーは準備できているか</h1>
+<p class="meta">UX Collective&nbsp;&nbsp;·&nbsp;&nbsp;07/16 04:48</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>AI統合により従来のUI/UXパラダイムが変わりつつある</li><li>対話型、予測型などの新しいインタラクションモデルが求められる</li><li>デザイナーに求められるスキルセットの再定義が急務</li></ul>
+  <p class="importance">💡 AI時代のインタラクション設計は単なる見た目変更でなく、予測・対話・文脈理解を含むメンタルモデル設計が必須。ユーザーとAIシステムの信頼関係構築がプロダクト差別化と事業成長の鍵となる。</p>
+</div>
+<div class="content">
+<h2>AIシステムは新しいインタラクションモデルを要求している。デザイナーは準備ができているか？</h2>
+<p>数十年の間、ほとんどのソフトウェアインタラクションは同じ方法で機能してきた。アプリケーションを開く、閉じる、ファイルをフォルダにドラッグする、メニューをクリックする、ウィンドウ間を移動する...これはデスクトップメタファーで、物理的なワークスペースのように感じるように設計されたソフトウェアだ。モバイルタッチとウェブは独自のインタラクションモデルをもたらしたが、デスクトップは文法の多くを設定し、インターフェースがその周囲で進化しても、人々がソフトウェアを移動する方法を依然として定義している。</p>
+<p>現在、AIシステムはその文法に異議を唱えている。ソフトウェアにおける会話型インタラクションはかなり以前から存在している（私たちは皆、AlexaやSiri、チャットボットを使用してきた）が、スクリプト化された範囲内でのみ、ユーザー入力に応答していた。最近のモデルは意図を解釈し、それに対して行動を起こし、インターフェースの一部を動作させながら構築できる。私たちは、すべてのステップを操作するタスク駆動型インターフェースから、意図を話すまたは入力した後に作業が始まるインテント駆動型インターフェースへと移行している。</p>
+<p>現在、テーブルの上に新しいインタラクションモデルはあるのか？そしてあるとしたら、デザイナーはどこに関わるのか？</p>
+<h2>前後関係を超えて</h2>
+<p>この記事を執筆している間に、OpenAIの元CTOであるMira Muratiが設立したAIスタートアップのThinking Machines Labが、インタラクションモデルの研究プレビューをリリースしたことを読んだ。同社は構築してきたものを命名するために「インタラクションモデル」という用語を使用している。違いを見よ：</p>
+<p>Thinking Machine's Interaction Modelsは、リアルタイムマルチモーダル交換（オーディオ、ビデオ、テキストの同時使用）用に設計されたアーキテクチャを備えた新しい種類のAIモデルだ。デザインでは、インタラクションモデルは製品の機能を結びつける包括的なフレームワークだ。何という偶然...またはそうだろうか？実は違う。どちらも同じスタックの2つの異なるレイヤーに対して同じ単語を使用している。モデルレイヤーはシステムが内部で何ができるかに関連している：入力をどのように処理し、コンテキストを維持し、モード全体で応答するかだ。デザインレイヤーは、その作業を人がどのように経験するかについてだ：彼らが何を見るのか、何をクリックするのか、そしてどのような心的モデルを形成するのか。デザインはモデルが何ができるかと人がそれをどのように使うかの間の翻訳だ。モデルがオーディオ、ビデオ、テキスト全体でリアルタイム会話を保持するなどの新しい機能を獲得すると、その上のデザインレイヤーは、それらを人々が作業できるものに翻訳する必要がある。</p>
+<p>Thinking Machine Labsが共有したデモビデオでは、インタラクションモデルはオーディオ、ビデオ、テキストを同時に取得し、あなたがまだ話している間に応答する。あなたが何か間違ったことを言ったときに割り込むことができ、カメラで見たものに反応し、言語をその場で翻訳できる。</p>
+<p>あるクリップでは、2人がその質問に対してUberの収益と費用のチャートを構築するように要求している。チャートはジェネレーティブUIで、その質問のためにその場で構築されている。モデルがバックグラウンドでそれを描画し続けている間に、彼らは今年のビジネスに関してUberが何をしてきたかを尋ねる。モデルは会話を続け、チャートの準備ができたときにそれをもたらす。</p>
+<p>すべてのエンジニアリングの下で、変化しているのはインタラクションのリズムだ。古い設定はあなたがマシンを待つようにさせ、マシンがあなたを待つようにさせた。これはそれを取り除くので、交換は停止せずに実行される。そのリズムの変化がインタラクションモデルに圧力をかけるものだ。私たちが使用してきたフレームワークは相互作用を想定している。聞き、話し、並行して作業するAIモデルはその構造に適合しない。</p>
+<h2>デザイナーが考慮すべきこと</h2>
+<p>インタラクションが（順序立てられたのではなく）継続的になると、デザインの役割は数ある特定の方法で変わる：</p>
+<p>メンタルモデルは再構築される必要がある。デスクトップメタファーはユーザーに彼らが移動できる画像（ファイル、フォルダ、アプリ）を与えた。AIがループに入ると、その画像は不完全だ。ユーザーは目に見えないもののメンタルモデルを形成する必要がある：意図を解釈し、それに対して行動し、出力を生成するシステム。デザイナーはその思考を可視化する必要がある。</p>
+<p>エントリーとナビゲーションは形を変える。ユーザーはチャットで開始し、生成されたUIで終わり、次に永続的なダッシュボードに移動するかもしれない。彼らは任意のコンテキストからエージェントを起動するかもしれない。インタラクションモデルは、物事がどこで始まるか、どのように戻るか、そしてそれ以前に何が行われたかを見つけられるかについての新しい慣例が必要だ。介入ポイントは意図的なものになる。</p>
+</div>
+<footer>
+  <a href="https://uxdesign.cc/ai-systems-are-demanding-new-interaction-models-are-designers-ready-d8a95f5e55a9?source=rss----138adf9c44c---4" target="_blank" rel="noopener">原文を読む → UX Collective</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,173 / 出力 1,896&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.598&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
