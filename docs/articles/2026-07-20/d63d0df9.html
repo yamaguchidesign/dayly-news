@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メインスレッドを「ブロック」することが理にかなっている場合</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>メインスレッドを「ブロック」することが理にかなっている場合</h1>
+<p class="meta">Smashing Magazine&nbsp;&nbsp;·&nbsp;&nbsp;07/17 17:00</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>メインスレッド処理の最適化戦略</li><li>パフォーマンスとUXのトレードオフ分析</li><li>実装判断の指針と事例解説</li></ul>
+  <p class="importance">💡 ユーザー体験に直結するページロードやレスポンス性能は、事業の離脱率・コンバージョン率に影響。技術的最適化判断がプロダクト競争力を左右するため、デザイナーも理解すべき重要な領域。</p>
+</div>
+<div class="content">
+<h2>メインスレッドを「ブロック」することが理にかなっている場合</h2>
+<p>一般的な経験則として、JavaScriptタスク実行時にブラウザのメインスレッドを「ブロック」してはいけないとされています。しかし、これは絶対的なルールなのでしょうか？Victor Ayomiopoは、スクリーンショット拡張機能に関わるユースケースを紹介します。このケースでは、彼はこのルールの例外を認め、メインスレッドをブロックすることが絶対に正しい判断だと判断しました。</p>
+<p>モダンなウェブ開発における神聖なルール、絶対に破られてはいけないルールについて、誰もが聞いたことがあるでしょう。「メインスレッドを決してブロックするな」というルールです。ウェブ開発者なら見逃すことはほぼ不可能です。ほぼすべてのパフォーマンスガイドに掲載されており、実際のところ、これは良いアドバイスです。ブラウザのメインスレッドはシングルスレッドであり、一度に1つのことしかできないことは周知の事実です。さらに、メインスレッドは私たちだけのものではなく、ブラウザのレンダリングエンジン、入力ハンドラー、その他の重要なタスクと共有しています。その結果、メインスレッドを保持している時間が短いほど、アプリはより反応性が高く感じられます。これが、バックグラウンドワーカーとタスクを共有するに至った理由です。UIと計算の間には明確な線があるべきで、その線を越えてはいけないと確信していました。これが「推奨される」アーキテクチャの姿です。</p>
+<p>しかし、時には、ワーカーにデータを移動させることの方が、メインスレッドに仕事をさせるよりも遅いとあえて言いたいのです。数ヶ月前、Fastaryというスクリーンショット機能を備えたChrome拡張機能を構築している際に、これを発見しました。キャンバス操作を処理するためにOffscreen Document（Chrome拡張機能のバックグラウンドプロセス）を使用した後でも、すべてのテストで約2～3秒のレイテンシーが常に見られました。スクリーンショットタスクは、結局のところ、ラグなしで瞬時に実行されるべきです。反射的にUIの凍結を避けるためにメインスレッドから仕事を移動させるのは非常に皮肉なことですが、時には、その仕事を移動させる行為（例えば、シリアライズ、コピー、デシリアライズ）自体もUIを凍結させることができます。そして、時には、バックグラウンドに仕事をさせるという推奨アプローチは、メインスレッドで仕事をするよりも遅い場合があります。そのことについて話しましょう。</p>
+<h2>ブラウザコンテキスト分離のアーキテクチャ</h2>
+<p>物事を整理するために、ブラウザコンテキストを分離する理由と、それらがどのように相互通信するかを理解しましょう。特に通信部分に重点を置きます。ブラウザは単一の環境以上のものです。異なる環境が同時に実行され、それぞれが独自のメモリスペース、アクセス可能なもの、およびルールを持っています。</p>
+<p>メインスレッドは、私たちが最も馴染みのあるものです。JavaScriptロジックが実行され、DOMが存在し、スタイルがレンダリングされ、ユーザーが相互作用する場所です。</p>
+<p>ウェブワーカーは、DOMアクセスなしでJavaScriptも実行できる個別のスレッドです。主に重いデータタスクに使用します。</p>
+<p>Service Workerは、ネットワークリクエストをインターセプトする責任を持つネットワーク関連のプロキシで、ページを閉じた後も実行できます。</p>
+<p>そして、Chrome拡張機能コンテキストがあります。バックグラウンドサービスワーカー、コンテンツスクリプト、およびOffscreen Document（この記事で関連性があるもの）があります。これらの各々は、他から分離されています。ウェブワーカーまたはバックグラウンドスクリプトは、メインスレッドとは異なるメモリスペースに存在します。彼らは単に互いの変数やロジックに到達して読み取ることができず、これは「共有なしアーキテクチャ」として知られています。</p>
+<p>これらの分離された環境はどのように通信しますか？postMessage()のようなAPIを使用して、明示的に前後にメッセージを交換します。</p>
+<h2>Structured Clone アルゴリズム</h2>
+<p>postMessage()は、ブラウザにデータの一部を取得して、それをリクエストしたコンテキストに配信するように指示します。</p>
+</div>
+<footer>
+  <a href="https://smashingmagazine.com/2026/07/when-makes-sense-block-main-thread/" target="_blank" rel="noopener">原文を読む → Smashing Magazine</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,180 / 出力 1,520&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.317&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
