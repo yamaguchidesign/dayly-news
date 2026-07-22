@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React Flight プロトコルの脆弱性と防御：RSC のデシリアライゼーション問題</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">🎨 デザイン</p>
+<h1>React Flight プロトコルの脆弱性と防御：RSC のデシリアライゼーション問題</h1>
+<p class="meta">Smashing Magazine&nbsp;&nbsp;·&nbsp;&nbsp;07/21 19:00</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>React Server Components のセキュリティ</li><li>脆弱性の悪用と対策方法を解説</li><li>プロダクト開発での実装ガイド</li></ul>
+  <p class="importance">💡 フロントエンドアーキテクチャの根本的な安全性確保。セキュリティ欠陥はUXを損ね、ユーザー信頼と事業継続性を脅かす。設計段階での防御実装が競争優位性を生む。</p>
+</div>
+<div class="content">
+<h2>React Flightプロトコルの悪用と防御：RSCのデシリアライゼーション脆弱性</h2>
+<p>Smashing Magazineのメインコンテンツをスキップ記事を読み始める すべての記事のリストにジャンプ すべてのトピックにジャンプ 記事 書籍 イベント メンバーシップ ニュースレター 寄稿 広告 その他 メニューを閉じる 記事 書籍 イベント メンバーシップ ニュースレター 寄稿 広告 検索をクリア アクセシビリティ UX CSS JavaScript パフォーマンス デザイン Figma 壁紙 React Vue ラウンドアップ ウェブデザイン ガイド ビジネス キャリア プライバシー すべての記事にジャンプ ↬ Durgesh Pawar 2026年7月21日 コメント0件</p>
+<h2>React Flightプロトコルの悪用と防御：RSCのデシリアライゼーション脆弱性</h2>
+<p>読了時間 27分 React、セキュリティ、コーディング Twitterで共有、LinkedInで共有 著者について Durgesh Rajubhai Pawarはハイパフォーマンスでアクセシブルなウェブアプリケーション開発に専念するフリーランス開発者です。彼は複雑な…Durgeshについてもっと詳しく ↬ メールニュースレター あなたの(素晴らしい)メール フロントエンド&amp;UXに関する週間ヒント。182,000人以上に信頼されています。 スマートインターフェースデザインパターン、45レッスン+UXトレーニング Manuel Matuzovićによるアクセシブルなフロントエンドパターン 1,000万人の開発者を祝う Christine Vallaureとの Figma MCP AIインターフェースのデザインパターン、30レッスン+UXトレーニング Angular、React、Vue向けのカスタムウェブフォーム。あなたのバックエンド。 React Server Componentsはインタラクティブなuiをストリーミングするために独自のFlightプロトコルに依存していますが、この同じメカニズムは攻撃者が悪用できる強力なデシリアライゼーション脆弱性をもたらします。Durgesh Pawarは、CVSS 10.0の「React2Shell」脆弱性の背後にあるメカニクスを分解し、プロトコル操作がどのようにしてリモートコード実行につながる可能性があるかを示します。また、厳密なスキーマ検証からCSRF強化まで、React Applicationをこれらの構造的リスクから保護するための、実践的でランク付けされた防御セットについても説明します。</p>
+<h2>React Server ComponentsはブラウザにHTMLを送信しません。JSONも送信しません。サーバーコンポーネントがレンダリングされるときに実際にネットワークを通じて伝送されるのは、Flightと呼ばれるカスタムストリーミングプロトコルです。これは行区切り形式であり、独自の型システム、独自の参照解決、およびクライアント上で実行可能な動作を再構築するための独自のルールを持っています。ほとんどのReact開発者はネットワークタブを開いて、実際のFlightペイロードを見たことがありません。JSONフラグメント、ドル記号がプレフィックスされた参照、およびReactランタイムが静かにライブコンポーネントツリーに再組み立てするモジュールポインタが混在しているように見えます。フレームワークがそれを処理するため、誰もそれに疑問を持ちません。ほとんどのチームがその信頼が実際に何を意味するのかについて慎重に考えたかどうか確実ではありません。</h2>
+<p>2025年12月にCVE-2025-55182がリリースされた後、私はFlightプロトコルを分解し始めました。セキュリティコミュニティはそれをReact2Shellと呼び、理由があります。それはFlightデシリアライゼーション層にあるCVSS 10.0の認証されていないリモートコード実行脆弱性でした。Server Functionエンドポイントへの1つの作られたHTTPリクエストで、攻撃者はシェルアクセスを持っていました。認証情報は必要ありません。連邦サイバーセキュリティ・インフラストラクチャ庁（CISA）はそれを既知の悪用される脆弱性カタログに追加しました。Sysdigは、イーサリアムブロックチェーンを通じてファイルレスインプラントをデプロイする北朝鮮の国家支援行為者への野生での悪用を結びつけました。それはあなたの注目を得るCVEの種類です。</p>
+<p>ソースコード（主にgetOutlinedModelとgetChunkで、実際に重要な解決ロジックが存在する場所）に時間を費やした後、React2Shellが単一の解析バグではないことに気づきました。それは症状でした。Flightはテキストのストリームから実行可能な参照、遅延ロードされたコンポーネント、サーバーRPCエンドポイント、および非同期状態を再構築します。これはデシリアライゼーションシステムです。攻撃面は単一の欠落したhasOwnPropertyチェックをはるかに超えています。</p>
+<p>この記事は、Flightがネットワーク上でどのように機能するか、デシリアライゼーション脆弱性がどこにあるか、攻撃者がすでに何を悪用したか、そして何がまだ露出しているかについてカバーしています。これは、独自のServer Componentsのための、影響によってランク付けされた実践的な防御セットをもたらします：すべてのServer Actionでのスキーマ検証、server-onlyパッケージ、クロスサイトリクエストフォージェリ（CSRF）強化、およびTaint APIとWeb Application Firewalls（WAF）が提供するものの評価。</p>
+<p>ウェブフォームはすべての意味のあるインタラクションの中心にあります。Adam Silverのフォームデザインパターンに出会いましょう。これはウェブのためのフォーム設計と構築に関する実践的なガイドです。目次にジャンプ ↬</p>
+<h2>目次</h2>
+<p>- Flightネットワーク上で</p>
+<p>- Flightがデシリアライゼーション脆弱性である理由</p>
+<p>- React2Shellのメカニクス</p>
+<p>- 修正</p>
+<p>- 防御、影響によってランク付け</p>
+<p>- React2Shell後に起きたこと</p>
+<p>- まだ露出しているもの</p>
+<p>- これは以前起きています</p>
+<p>- これがどこへ向かうのか</p>
+<h2>ネットワーク上のFlight</h2>
+<p>any Next.js App Routerページでブラウザのネットワークタブを開いて、Content-Type: text/x-componentを返すリクエストを探してください。それがFlightです。単一のJSONブロブではありません。これはストリーミング、行区切り形式で、各行は接続を通じて到着するときにクライアント側のReactランタイムが処理する自己完結型の「行」です。</p>
+<p>実践的には、単純なFlightペイロードは次のようになります：1</p>
+</div>
+<footer>
+  <a href="https://smashingmagazine.com/2026/07/weaponizing-defending-react-flight-protocol/" target="_blank" rel="noopener">原文を読む → Smashing Magazine</a>
+  <p class="token-info">翻訳使用トークン: 入力 1,222 / 出力 2,232&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥1.857&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
