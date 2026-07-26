@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel WAF for Blob がベータ開始</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;max-width:720px;margin:0 auto;padding:40px 20px 80px;color:#111;line-height:1.8;background:#fafafa}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0070f3;margin-bottom:14px}
+h1{font-size:1.75rem;font-weight:800;line-height:1.3;margin-bottom:10px;color:#000}
+.meta{font-size:.82rem;color:#888;margin-bottom:32px}
+.summary-box{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:24px;margin-bottom:36px}
+.summary-box .label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-bottom:10px}
+.summary-box ul{list-style:none;margin-bottom:14px}
+.summary-box li{padding:4px 0 4px 18px;position:relative;font-size:.94rem}
+.summary-box li::before{content:"—";position:absolute;left:0;color:#0070f3}
+.importance{font-size:.87rem;color:#555;padding-top:12px;border-top:1px solid #f0f0f0;margin-top:4px}
+.content{background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e5e5}
+.content p{margin-bottom:1.4em;font-size:.96rem}
+.content h2{font-size:1.05rem;font-weight:700;margin:1.8em 0 .6em;color:#000}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid #eee;font-size:.82rem}
+footer a{color:#aaa;text-decoration:none}
+footer a:hover{color:#0070f3}
+.token-info{margin-top:14px;font-size:.75rem;color:#bbb}
+</style>
+</head>
+<body>
+<p class="tag">📦 プロダクト・SaaS</p>
+<h1>Vercel WAF for Blob がベータ開始</h1>
+<p class="meta">Vercel Blog&nbsp;&nbsp;·&nbsp;&nbsp;</p>
+<div class="summary-box">
+  <p class="label">要約</p>
+  <ul><li>ファイル配信のセキュリティ強化</li><li>エッジでの攻撃検知・防御実装</li><li>デベロッパー体験を損なわない設計</li></ul>
+  <p class="importance">💡 インフラレイヤーのセキュリティ向上はプロダクト信頼性の基盤。開発速度を損なわずセキュリティを組み込む設計が、ユーザーの安心感と事業リスク軽減の両面で事業成長を支える。</p>
+</div>
+<div class="content">
+<h2>Vercel WAF for Blob がベータ版になりました</h2>
+<p>Vercel WAF for Blob は、Vercel Blob ストアを保護できるようになりました。デプロイを保護するのと同じルール（拒否、チャレンジ、レート制限）が、コード、Blob URL、または @vercel/blob に変更を加えることなく、Blob トラフィックに適用されるようになります。</p>
+<p>Blob ストアをそのセッティングから保護でき、コード変更は不要です。すべての Blob は既に Vercel の CDN を通じて配信されているため、保護は新しいプロキシではなく、ストアのスイッチです。スクレイパーを阻止したり、ダウンロードを地域制限したり、高コストなアセットをレート制限したり、悪意のある IP をブロックしたりすることが、1 バイトも配信される前に可能になります。</p>
+<p>ルールはエッジで評価され、IP、国、パスなどでマッチングします：</p>
+<p>- 拒否は 403 を返し、リクエストを早期に停止するため、データ転送は発生しません。</p>
+<p>- チャレンジは標準的なブラウザチャレンジを配信し、それに失敗したリクエストはブロックされます。</p>
+<p>- レート制限は、クライアントが制限を超過した場合、429 を返します。</p>
+<p>- リダイレクトとログはデプロイトラフィックと同じように動作します。</p>
+<p>OWASP Core Ruleset は、動的アプリケーショントラフィックではなくオブジェクト配信を対象としているため、サポートされていません。</p>
+<h2>ストアの保護</h2>
+<p>セットアップはダッシュボードの単一スイッチです：</p>
+<p>Blob ストアを開き、[Settings] を選択してから、ストアを保護します。Vercel はそれをチーム上の共有 vercel-blob-default-project に接続します。標準的なルールビルダーでそのルールを作成すると、すぐに有効になります。1 つのルールセットがすべての保護されたストアに適用されるため、ルールをストアごとにスコープすることはできません。</p>
+<p>ベータ期間中、セットアップはダッシュボードのみで、チャレンジはブラウザで解く必要があるため、チャレンジルールにマッチするサーバー側の @vercel/blob リクエストはブロックされます。ブラウザトラフィックにはチャレンジルールを使用してください。</p>
+<p>Vercel WAF for Blob はすべてのプラン対象でベータ版として利用可能です。完全なセットアップについてはドキュメントを参照してください。</p>
+</div>
+<footer>
+  <a href="https://vercel.com/changelog/vercel-waf-for-blob-is-now-in-beta" target="_blank" rel="noopener">原文を読む → Vercel Blog</a>
+  <p class="token-info">翻訳使用トークン: 入力 998 / 出力 796&nbsp;&nbsp;|&nbsp;&nbsp;費用: 約 ¥0.747&nbsp;(claude-haiku-4-5, $1=150円換算)</p>
+</footer>
+</body>
+</html>
